@@ -4,6 +4,12 @@ Author: Joseph Molina
 Date 3/23/16
 */
 import java.util.*;
+import sun.audio.*;
+import java.applet.*;
+import java.net.*;
+import java.io.*;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 public class RockPaperScissors extends player{
 
@@ -61,13 +67,43 @@ public class RockPaperScissors extends player{
     return temp;
   }
 
+  public static void setMatchUp(player p1, player p2){
+    System.out.println("========================================="+ "\n" +"This match is set for 3 brutal rounds." + "\n" +
+    "I want no foul or dirty plays, protect yourself at all times" + "\n" +
+    p1.getName() + " are you ready? " + "\n"
+    + p2.getName() + " are you ready?" + "\n"+
+    "Let's get it on!");
+  }
+
+//Method to play the bell before the match begins.
+  public static void playBell()
+  {
+    try{
+      File file = new File("bellSound.wav");
+      Clip clip = AudioSystem.getClip();
+      clip.open(AudioSystem.getAudioInputStream(file));
+      clip.start();
+      Thread.sleep(clip.getMicrosecondLength()/1000);
+
+    }catch(Exception e){
+      System.out.println("File does not exist!");
+    }
+  }
+
   public static void main(String[]args){
 
     opening();
     player p1 = getPlayer();
+    player p2 = getPlayer();
+    setMatchUp(p1, p2);
+    playBell();
+    //System.out.println("GOOOOOOOOO");
+  /*  System.out.println("Player1 name is: " + p1.getName());
+    System.out.println("Player1 hometown is: " + p1.getHomeTown());
 
-    //System.out.println("Player1 name is: " + p1.getName());
-    //System.out.println("Player1 hometown is: " + p1.getHomeTown());
+    System.out.println("Player2 name is: " + p2.getName());
+    System.out.println("Player2 hometown is: " + p2.getHomeTown());
+    */
 
     }
 }
