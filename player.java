@@ -1,21 +1,24 @@
 public class player{
-  String name;
-  String hometown;
-  int score;
+  //Instance variables
+  private String name;
+  private String hometown;
+  private int score;
+  private char choice;
 
+  //Default constructor for player class.
   player(){
     name = "Player";
     hometown = "UNKNOWN";
     score = 0;
   }
-
+  //Overloaded constructor for the player class.
   player(String name, String hometown, int score){
     this.name = name;
     this.hometown = hometown;
     this.score = score;
   }
 
-  //Setters for the class
+/*************Setters for the class ***********************/
   public void setName(String name){
     this.name = name;
   }
@@ -28,7 +31,11 @@ public class player{
     this.score = score;
   }
 
-  //Getters for the class
+  public void setScore(char choice){
+    this.choice = choice;
+  }
+
+/************Getters for the class ***********************/
   public String getName(){
     return this.name;
   }
@@ -39,5 +46,9 @@ public class player{
 
   public int getScore(){
     return this.score;
+  }
+
+  public char getChoice(){
+    return this.choice;
   }
 }
