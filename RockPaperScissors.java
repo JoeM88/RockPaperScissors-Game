@@ -23,7 +23,7 @@ public class RockPaperScissors extends player{
       playTypeWriter();
       System.out.printf("%c", text.charAt(i));
       try{
-        Thread.sleep(100); //0.1 second pause between characters/
+        Thread.sleep(3); //0.1 second pause between characters/
       }catch(Exception e){
         Thread.currentThread().interrupt();
       }
@@ -141,13 +141,11 @@ public class RockPaperScissors extends player{
 //Both players pick rock.
     if(p1.getChoice() == 1 && p2.getChoice() == 1){
       System.out.println("Both players picked rock!" + "\n" + "Tie");
-      //return;
     }
 //Player 1 picks rock and player2 picks paper
     else if(p1.getChoice() == 1 && p2.getChoice() == 2){
-      System.out.println("Player 2 wins!" + "\n" + "Rock beats Paper! ");
+      System.out.println("Player 2 wins!" + "\n" + "Paper beats Rock! ");
       p2.setScore(p2.getScore() + 1);
-      //return;
     }
 //Player 1 picks Rock and player2 picks Scissors.
     else if(p1.getChoice() == 1 && p2.getChoice() == 3){
@@ -158,40 +156,33 @@ public class RockPaperScissors extends player{
 //PLayer 1 picks Paper and player2 picks paper
   else if(p1.getChoice() == 3 && p2.getChoice() == 3){
     System.out.println("Both players picked Paper!" + "\n" + "Tie");
-    //return;
   }
 //Player 1 picks paper and player 2 picks scissors
   else if(p1.getChoice() == 2 && p2.getChoice() == 3){
     System.out.println("Player 2 wins!" + "\n" + "Scissors beats Paper! ");
     p2.setScore(p2.getScore() + 1);
-    //return;
   }
 //Scissors vs rock
   else if(p1.getChoice() == 3 && p2.getChoice() == 1){
     System.out.println("Player 2 wins!" + "\n" + "Rock beats Scissors! ");
     p2.setScore(p2.getScore() + 1);
-    //return;
   }
 //Scissors vs paper
   else if(p1.getChoice() == 3 && p2.getChoice() == 2){
     System.out.println("Player 1 wins!" + "\n" + "Scissors beats paper! ");
     p1.setScore(p1.getScore() + 1);
-    //return;
   }
-//Paper vs rock
+//Scissors vs rock
   else if(p1.getChoice() == 3 && p2.getChoice() == 1){
     System.out.println("Player 2 wins!" + "\n" + "Paper beats Rock ");
     p2.setScore(p2.getScore() + 1);
-    //return;
   }
 //Both players pick scissors
   else if(p1.getChoice() == 3 && p2.getChoice() == 3){
     System.out.println("Both players picked Scissors!" + "\n" + "Tie");
-    //return;
   }
-
 }
-
+//Function to display the winner and the their score.
 public static void declareWinner(player p1, player p2){
   if(p1.getScore() > p2.getScore()){
     System.out.println("The winner of this bout is..." + p1.getName() + "!" + "\n" +
@@ -208,28 +199,21 @@ public static void declareWinner(player p1, player p2){
   }
 }
 
-  public static void main(String[]args){
+public static void main(String[]args){
+opening();
+player p1 = getPlayer();
+player p2 = getPlayer();
+setMatchUp(p1, p2);
+playBell();
 
-    opening();
-    player p1 = getPlayer();
-    player p2 = getPlayer();
-    setMatchUp(p1, p2);
-    playBell();
-    pickWeapon(p1);
-    pickWeapon(p2);
-  //  System.out.println("Player one choice is " + p1.getChoice());
-    //System.out.println("Player two choice is " + p2.getChoice());
 for(int start = 0; start < 3; start++){
+  pickWeapon(p1);
+  pickWeapon(p2);
   logic(p1,p2);
 }
+
 declareWinner(p1,p2);
 
-  /*  System.out.println("Player1 name is: " + p1.getName());
-    System.out.println("Player1 hometown is: " + p1.getHomeTown());
 
-    System.out.println("Player2 name is: " + p2.getName());
-    System.out.println("Player2 hometown is: " + p2.getHomeTown());
-    */
-
-    }
+  }
 }
