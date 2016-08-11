@@ -12,6 +12,9 @@ import javax.sound.sampled.Clip;
 
 public class RockPaperScissors extends player{
 
+  public static String p1Name = "";
+  public static String p2Name = "";
+
   //Method to display the welcome message
   public static void opening()
   {
@@ -82,13 +85,14 @@ public class RockPaperScissors extends player{
     player temp = new player (name,hometown,score);
     return temp;
   }
-
+//Method to display the a funny play game message before the match begins.
   public static void setMatchUp(player p1, player p2){
     System.out.println("========================================="+ "\n" +"This match is set for 3 brutal rounds." + "\n" +
     "I want no foul or dirty plays, protect yourself at all times." + "\n" +
     p1.getName() + " are you ready? " + "\n"
     + p2.getName() + " are you ready?" + "\n"+
     "Let's get it on!");
+    System.out.println("");
   }
 
 //Method to play the bell before the match begins.
@@ -106,36 +110,55 @@ public class RockPaperScissors extends player{
       System.out.println("File does not exist!");
     }
   }
-
+//Method to prompt the user for either rock,paper or scissors.
+//The method will take in a player object and record his or her option.
  public static void pickWeapon (player p){
+  // System.out.print("\033[H\033[2J");
+   //System.out.flush();
     int choice = 0;
+
     Scanner keyboard = new Scanner(System.in);
-    System.out.println("Select your option.");
+    boolean correctChoice = false;
+while(!correctChoice){
+  try{
+    if(p.getName().equals(p1Name)){
+      System.out.println(p1Name + " select your option.");
+    }
+    else if(p.getName().equals(p2Name)){
+      System.out.println(p2Name + " select your option.");
+    }
+    //System.out.println("Select your option.");
     //Do while loop for the user selecting their choice.
     do{
       System.out.println("Enter 1. for Rock" + "\n"
       + "Enter 2. for Paper" + "\n" + "Enter 3. for Scissors");
       choice = keyboard.nextInt();
-
       switch(choice){
         case 1 : p.setChoice(1);
+                correctChoice = true;
             break;
 
         case 2: p.setChoice(2);
+                correctChoice = true;
             break;
 
         case 3: p.setChoice(3);
+              correctChoice = true;
             break;
         default:{
           System.out.println("Invalid choice option!");
         }
       }
-    }while(choice == 0); //End of do loop
-
+    }while(choice == 0 && correctChoice!= true); //End of do loop
     //Clearing the terminal screen.
-    System.out.print("\033[H\033[2J");
-    System.out.flush();
+  //  System.out.print("\033[H\033[2J");
+    //System.out.flush();
+  }catch(Exception e){
+    keyboard.nextLine();
+    System.out.println("Invalid choice option!");
   }
+ }
+}
 
   public static void logic(player p1, player p2){
 //Both players pick rock.
@@ -144,7 +167,7 @@ public class RockPaperScissors extends player{
     }
 //Player 1 picks rock and player2 picks paper
     else if(p1.getChoice() == 1 && p2.getChoice() == 2){
-      System.out.println("Player 2 wins!" + "\n" + "Paper beats Rock! ");
+      System.out.println("Player 2 wins!" + "\n" + "Paper beats Rock! " + "\n");
       p2.setScore(p2.getScore() + 1);
     }
 //Player 1 picks Rock and player2 picks Scissors.
@@ -182,38 +205,75 @@ public class RockPaperScissors extends player{
     System.out.println("Both players picked Scissors!" + "\n" + "Tie");
   }
 }
+/********************************************************************************/
 //Function to display the winner and the their score.
 public static void declareWinner(player p1, player p2){
   if(p1.getScore() > p2.getScore()){
     System.out.println("The winner of this bout is..." + p1.getName() + "!" + "\n" +
     "Player 1 Score: " + p1.getScore() + "\n" +
     "Player 2 Score: " + p2.getScore());
+      playVictorySong();
+
   }
   else if(p2.getScore() > p1.getScore()){
     System.out.println("The winner of this bout is..." + p2.getName() + "!" + "\n" +
     "Player 1 Score: " + p1.getScore() + "\n" +
     "Player 2 Score: " + p2.getScore());
-  }
+      playVictorySong();
+    }
   else{
     System.out.println("No winner! It is a tie!");
   }
 }
+//Function to play a victory song if either player wins.
+public static void playVictorySong(){
+  try{
+    //Opening the audio file.
+    File file = new File("Victory.wav");
+    Clip clip = AudioSystem.getClip();
+    clip.open(AudioSystem.getAudioInputStream(file));
+    clip.start(); //Playing the clip.
+    Thread.sleep(clip.getMicrosecondLength()/100);
 
+  }catch(Exception e){
+    System.out.println("File does not exist!");
+  }
+}
+/*********************************************************************************************************
+*/
 public static void main(String[]args){
+final String ANSI_CLS = "\u001b[2J";
+final String ANSI_HOME = "\u001b[H";
 opening();
+System.out.println("First player:");
 player p1 = getPlayer();
+System.out.println("Second player:");
 player p2 = getPlayer();
+p1Name = p1.getName();
+p2Name = p2.getName();
 setMatchUp(p1, p2);
 playBell();
 
-for(int start = 0; start < 3; start++){
+for(int i = 0; i < 3; i++){
   pickWeapon(p1);
+  System.out.print(ANSI_CLS + ANSI_HOME);
+  System.out.flush();
   pickWeapon(p2);
+  System.out.print(ANSI_CLS + ANSI_HOME);
+  System.out.flush();
   logic(p1,p2);
+  if( i < 1){
+    System.out.println("Next round.");
+  }
+  else if(i == 1){
+    System.out.println("Final round.");
+  }
+
+
 }
 
-declareWinner(p1,p2);
 
+declareWinner(p1,p2);
 
   }
 }
