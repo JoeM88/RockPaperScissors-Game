@@ -3,7 +3,7 @@ public class player{
   private String name;
   private String hometown;
   private int score;
-  private char choice;
+  private int choice;
 
   //Default constructor for player class.
   player(){
@@ -31,7 +31,7 @@ public class player{
     this.score = score;
   }
 
-  public void setScore(char choice){
+  public void setChoice(int choice){
     this.choice = choice;
   }
 
@@ -48,7 +48,7 @@ public class player{
     return this.score;
   }
 
-  public char getChoice(){
+  public int getChoice(){
     return this.choice;
   }
 }
