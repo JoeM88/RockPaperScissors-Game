@@ -134,15 +134,18 @@ while(!correctChoice){
       + "Enter 2. for Paper" + "\n" + "Enter 3. for Scissors");
       choice = keyboard.nextInt();
       switch(choice){
-        case 1 : p.setChoice(1);
+        case 1 :
+                p.setChoice(1);
                 correctChoice = true;
             break;
 
-        case 2: p.setChoice(2);
+        case 2:
+                p.setChoice(2);
                 correctChoice = true;
             break;
 
-        case 3: p.setChoice(3);
+        case 3:
+              p.setChoice(3);
               correctChoice = true;
             break;
         default:{
@@ -272,13 +275,14 @@ while(validater != true){
     input.nextLine();
   }
 }
-//Resetting the boolean checker variable.
+
 validater = false;
+
 while(validater != true){
   try{
     System.out.println("How many rounds do you want to battle for?");
     numRounds = input.nextInt();
-    if(numRounds >= 3 && numRounds <= 13){
+    if(numRounds >= 3 && choiceSelected <= 13){
       validater = true;
     }
   }catch(Exception e){
