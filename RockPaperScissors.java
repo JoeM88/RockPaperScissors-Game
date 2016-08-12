@@ -239,41 +239,107 @@ public static void playVictorySong(){
     System.out.println("File does not exist!");
   }
 }
+
+public static int computerChoice(){
+  Random rand = new Random();
+  int randomNumber = rand.nextInt((3 -1) + 1) + 1;
+  return randomNumber;
+}
 /*********************************************************************************************************
 */
 public static void main(String[]args){
 final String ANSI_CLS = "\u001b[2J";
 final String ANSI_HOME = "\u001b[H";
-opening();
-System.out.println("First player:");
-player p1 = getPlayer();
-System.out.println("Second player:");
-player p2 = getPlayer();
-p1Name = p1.getName();
-p2Name = p2.getName();
-setMatchUp(p1, p2);
-playBell();
-
-for(int i = 0; i < 3; i++){
-  pickWeapon(p1);
-  System.out.print(ANSI_CLS + ANSI_HOME);
-  System.out.flush();
-  pickWeapon(p2);
-  System.out.print(ANSI_CLS + ANSI_HOME);
-  System.out.flush();
-  logic(p1,p2);
-  if( i < 1){
-    System.out.println("Next round.");
-  }
-  else if(i == 1){
-    System.out.println("Final round.");
-  }
+boolean validater = false;
+Scanner input = new Scanner(System.in);
+int choiceSelected = 0;
+int numRounds = 3;
 
 
-}
-
-
-declareWinner(p1,p2);
-
+System.out.print(ANSI_CLS + ANSI_HOME);
+System.out.flush();
+//Obtaining which mode of gameplay to launch.
+System.out.println("Would you like to play against a friend or against a machine?");
+while(validater != true){
+  try{
+    System.out.println("Enter 1 for friend and 2 for machine");
+    choiceSelected = input.nextInt();
+    if(choiceSelected == 1 || choiceSelected == 2){
+          validater = true;
+    }
+  }catch(Exception e){
+    System.out.println("Invalid choice option!");
+    input.nextLine();
   }
 }
+//Resetting the boolean checker variable.
+validater = false;
+while(validater != true){
+  try{
+    System.out.println("How many rounds do you want to battle for?");
+    numRounds = input.nextInt();
+    if(numRounds >= 3 && numRounds <= 13){
+      validater = true;
+    }
+  }catch(Exception e){
+    System.out.println("Number of rounds must be 3 - 12.");
+    input.nextLine();
+  }
+}
+
+switch(choiceSelected){
+  case 1:
+    System.out.println("You selected 2 player game play" + "\n");
+    opening();
+    System.out.println("First player:");
+    player p1 = getPlayer();
+    System.out.println("Second player:");
+    player p2 = getPlayer();
+    p1Name = p1.getName();
+    p2Name = p2.getName();
+    setMatchUp(p1, p2);
+    playBell();
+
+    for(int i = 0; i < numRounds; i++){
+      pickWeapon(p1);
+      System.out.print(ANSI_CLS + ANSI_HOME);
+      System.out.flush();
+      pickWeapon(p2);
+      System.out.print(ANSI_CLS + ANSI_HOME);
+      System.out.flush();
+      logic(p1,p2);
+      if( i < numRounds){
+        System.out.println("Next round.");
+      }
+      else if(i == numRounds){
+        System.out.println("Final round.");
+      }
+    }
+    declareWinner(p1,p2);
+    break;
+
+  case 2:
+  System.out.println("You selected Computer game play");
+  player player1 = getPlayer();
+  player computer = new player();
+  computer.setName("computer");
+  for(int i = 0; i < numRounds; i++){
+    pickWeapon(player1);
+    System.out.print(ANSI_CLS + ANSI_HOME);
+    System.out.flush();
+    int randomSelection = computerChoice();
+    computer.setChoice(randomSelection);
+    logic(player1,computer);
+    if( i < numRounds){
+      System.out.println("Next round.");
+    }
+    else if(i == numRounds){
+      System.out.println("Final round.");
+    }
+  }
+  declareWinner(player1,computer);
+    break;
+  } //end of switch statement.
+
+  } //end of main
+} // end of class
